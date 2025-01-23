@@ -1,9 +1,12 @@
 from validation_test.utils.clip_and_extract import clip_and_extract
 
-def run(vtk_folder):
+def run(vtk_folder, save_log_pth, grid_number, bounds, data_array_name):
+    assert len(bounds) == 6
     clip_and_extract(
         vtk_folder=vtk_folder,
-        grid_number=1,
-        bounds=[-0.52, -0.48, 0.0, 0.04, -0.84, -0.82],
-        data_array_name="pressure"
+        grid_number=grid_number,
+        bounds=bounds,
+        data_array_name=data_array_name
     )
+    
+    # 후처리 이후 save_log_pth에 결과 저장 (csv)

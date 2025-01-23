@@ -27,20 +27,20 @@ for j in json_list:
     if not os.path.exists(save_log_pth):
         os.makedirs(save_log_pth)
 
-    with open(os.path.join(log_pth, save_log_pth, 'log.txt'), 'w') as output_file:
+    with open(os.path.join(save_log_pth, 'log.txt'), 'w') as output_file:
         process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
         process.communicate()
     
     result_pth = os.path.join(val_folder_pth, file_name)
     match file_name:
         case "VAL_Hydro_Static":
-            vt.hydrostatic(result_pth, **settings[file_name])
+            vt.hydrostatic(result_pth, save_log_pth, **settings[file_name])
             
         case "VAL_Dam_Break":
-            vt.dambreak(result_pth, **settings[file_name])
+            vt.dambreak(result_pth, save_log_pth, **settings[file_name])
             
         case "VAL_OBC_Poiseuille":
-            vt.obc_poiseuille(result_pth, **settings[file_name])
+            vt.obc_poiseuille(result_pth, save_log_pth, **settings[file_name])
             
         case "VAL_Periodic_Poiseuille":
-            vt.periodic_poiseulle(result_pth, **settings[file_name])
+            vt.periodic_poiseulle(result_pth, save_log_pth, **settings[file_name])
