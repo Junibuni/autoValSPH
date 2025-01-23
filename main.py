@@ -1,37 +1,46 @@
 import argparse
 import subprocess
 import os
+
 import validation_test as vt
+from validation_test.utils.parse_json import parse_json
 
-# parser = argparse.ArgumentParser(description="SPH automated validation")
-# parser.add_argument("source_folder", help="Path to the source folder")
+parser = argparse.ArgumentParser(description="SPH automated validation")
+parser.add_argument("--json_pth", type=str, default="./sample.json", help="Path to the json file")
 
-# args = parser.parse_args()
+args = parser.parse_args()
 
-# source_pth = args.source_folder
+json_pth = args.json_pth
 
-#vt.hydrostatic(r"D:\WorkSpace\001solver\000SDK_3D\sources\test_files\Validation\VAL_Hydro_Static")
-#vt.dambreak(r"D:\WorkSpace\001solver\000SDK_3D\sources\test_files\Validation\VAL_Dam_Break")
-#vt.periodic_poiseulle(r"D:\WorkSpace\001solver\000SDK_3D\sources\test_files\SPH\periodic_poiseuille")
-#vt.obc_poiseuille(r"D:\WorkSpace\001solver\000SDK_3D\sources\test_files\SPH\periodic_poiseuille")
+data, json_list = parse_json(json_pth)
 
+solver_pth = data["solver_pth"]
+val_folder_pth = data["val_folder_pth"]
+settings = data["settings"]
+log_pth = data["log_pth"]
 
-# exe_path = os.path.join(source_pth, r"\VSBuild\x64\Release\RuntimeSPH.exe")
-
-# json_list = [
-#     "VAL_Hydro_Static.json",
-#     "VAL_Dam_Break.json",
-#     "VAL_Periodic_Poiseuille.json",
-#     "VAL_OBC_Poiseuille.json",
-# ]
-
-# for test in json_list:
-#     argument = os.path.join(source_pth, r"\test_files\Validation\VAL_Periodic_Poiseuille.json")
-
-
-# # Open a file to write the output
-# with open('output.txt', 'w') as output_file:
-#     process = subprocess.Popen([exe_path, argument], stdout=output_file, stderr=subprocess.STDOUT)
-#     process.communicate()
+for j in json_list:
+    argument = os.path.join(val_folder_pth, j)
+    file_name = os.path.splitext(j)[0]
+    save_log_pth = os.path.join(log_pth, file_name)
     
-vt.periodic_poiseulle(r"D:\WorkSpace\001solver\000SDK_3D\sources\test_files\Validation\VAL_Periodic_Poiseuille")
+    if not os.path.exists(save_log_pth):
+        os.makedirs(save_log_pth)
+
+    with open(os.path.join(log_pth, save_log_pth, 'log.txt'), 'w') as output_file:
+        process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
+        process.communicate()
+    
+    result_pth = os.path.join(val_folder_pth, file_name)
+    match file_name:
+        case "VAL_Hydro_Static":
+            vt.hydrostatic(result_pth, **settings[file_name])
+            
+        case "VAL_Dam_Break":
+            vt.dambreak(result_pth, **settings[file_name])
+            
+        case "VAL_OBC_Poiseuille":
+            vt.obc_poiseuille(result_pth, **settings[file_name])
+            
+        case "VAL_Periodic_Poiseuille":
+            vt.periodic_poiseulle(result_pth, **settings[file_name])
