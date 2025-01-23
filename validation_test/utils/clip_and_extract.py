@@ -36,11 +36,12 @@ def clip_and_extract(vtk_folder, grid_number, bounds, data_array_name):
         else:
             print(f"Array '{data_array_name}' not found in {file_path}")
 
-    plt.figure()
-    plt.plot(times, mean_values, marker='o', label=f"Grid {grid_number}")
-    plt.xlabel("Time Step")
-    plt.ylabel(f"Mean Value of {data_array_name}")
-    plt.title(f"Clipped Data Over Time for Grid {grid_number}")
-    plt.legend()
-    plt.grid()
-    plt.show()
+    # plt.figure()
+    # plt.plot(times, mean_values, marker='o', label=f"Grid {grid_number}")
+    # plt.xlabel("Time Step")
+    # plt.ylabel(f"Mean Value of {data_array_name}")
+    # plt.title(f"Clipped Data Over Time for Grid {grid_number}")
+    # plt.legend()
+    # plt.grid()
+    # plt.show()
+    return times, mean_values

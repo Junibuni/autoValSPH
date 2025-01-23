@@ -62,12 +62,13 @@ def interpolate_and_plot_line(vtk_folder, grid_number, start_point, end_point, n
 
     velocity_x = velocity_data[:, 0]
 
-    distances, normalized_values = sph_interpolation_with_shepard(velocity_x, positions, start_point, end_point, n_points, radius)
+    distances, values = sph_interpolation_with_shepard(velocity_x, positions, start_point, end_point, n_points, radius)
 
-    plt.plot(distances, normalized_values, label=f"SPH Interpolation (Grid {grid_number}, Time Step {last_time_index})")
-    plt.xlabel("Distance Along Line")
-    plt.ylabel("Normalized Velocity X")
-    plt.title(f"SPH Interpolation of Velocity X Over Line (Grid {grid_number}, Time Step {last_time_index})")
-    plt.legend()
-    plt.grid()
-    plt.show()
+    # plt.plot(distances, values, label=f"SPH Interpolation (Grid {grid_number}, Time Step {last_time_index})")
+    # plt.xlabel("Distance Along Line")
+    # plt.ylabel("Normalized Velocity X")
+    # plt.title(f"SPH Interpolation of Velocity X Over Line (Grid {grid_number}, Time Step {last_time_index})")
+    # plt.legend()
+    # plt.grid()
+    # plt.show()
+    return distances, values
