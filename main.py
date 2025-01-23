@@ -20,9 +20,9 @@ settings = data["settings"]
 log_pth = data["log_pth"]
 
 for j in json_list:
-    argument = os.path.join(val_folder_pth, j)
-    file_name = os.path.splitext(j)[0]
-    save_log_pth = os.path.join(log_pth, file_name)
+    argument = os.path.join(val_folder_pth, j) # i.e. "some_path/VAL_Hydro_Static.json"
+    file_name = os.path.splitext(j)[0] # i.e. "VAL_Hydro_Static"
+    save_log_pth = os.path.join(log_pth, file_name) # i.e. "log_path/VAL_Hydro_Static"
     
     if not os.path.exists(save_log_pth):
         os.makedirs(save_log_pth)
@@ -31,7 +31,7 @@ for j in json_list:
         process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
         process.communicate()
     
-    result_pth = os.path.join(val_folder_pth, file_name)
+    result_pth = os.path.join(val_folder_pth, file_name) # i.e. "validation_path/VAL_Hydro_Static"
     match file_name:
         case "VAL_Hydro_Static":
             vt.hydrostatic(result_pth, save_log_pth, **settings[file_name])
