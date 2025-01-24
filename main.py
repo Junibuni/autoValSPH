@@ -1,8 +1,9 @@
 import argparse
 import subprocess
 import os
+import time
 
-import validation_test as vt
+import importlib
 from validation_test.utils.parse_json import parse_json
 
 parser = argparse.ArgumentParser(description="SPH automated validation")
@@ -27,20 +28,33 @@ for j in json_list:
     if not os.path.exists(save_log_pth):
         os.makedirs(save_log_pth)
 
-    with open(os.path.join(save_log_pth, 'log.txt'), 'w') as output_file:
-        process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
-        process.communicate()
-    
-    result_pth = os.path.join(val_folder_pth, file_name) # i.e. "validation_path/VAL_Hydro_Static"
-    match file_name:
-        case "VAL_Hydro_Static":
-            vt.hydrostatic(result_pth, save_log_pth, **settings[file_name])
-            
-        case "VAL_Dam_Break":
-            vt.dambreak(result_pth, save_log_pth, **settings[file_name])
-            
-        case "VAL_OBC_Poiseuille":
-            vt.obc_poiseuille(result_pth, save_log_pth, **settings[file_name])
-            
-        case "VAL_Periodic_Poiseuille":
-            vt.periodic_poiseulle(result_pth, save_log_pth, **settings[file_name])
+    try:
+        print(f"Executing program for: {file_name}")
+        with open(os.path.join(save_log_pth, 'log.txt'), 'w') as output_file:
+            start_time = time.time()
+            process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
+            process.communicate()
+            end_time = time.time()
+            execution_time = end_time - start_time
+            print(f"Execution Time: {execution_time:.5f}")
+            print(f"Program output is logged to: {save_log_pth}")
+            print()
+    except subprocess.CalledProcessError as e:
+        print(f"Error during executing program for {file_name}. Check log file: {save_log_pth}")
+        raise
+
+    try:                    
+        print(f"Post-processing VTK files for: {file_name}")
+        result_pth = os.path.join(val_folder_pth, file_name) # i.e. "validation_path/VAL_Hydro_Static"
+        module = importlib.import_module(f"validation_test.{file_name}")
+        function_name = "run"
+        if hasattr(module, function_name):
+            getattr(module, function_name)(result_pth, save_log_pth, **settings[file_name])  
+            print(f"Post-processing for {file_name} is finished.")
+            print()          
+        else:
+            print(f"The function {module}.{function_name} is not defined.")  
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error during post-processing for {file_name}.")
+        raise

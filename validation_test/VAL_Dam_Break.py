@@ -4,7 +4,7 @@ import pandas as pd
 
 from validation_test.utils.clip_and_extract import clip_and_extract
 
-def run(vtk_folder, save_log_pth, grid_number, bounds, data_array_name):
+def run(vtk_folder, save_log_pth, grid_number):
     bounds =  [[-0.52, -0.48, 0.0, 0.04, -0.84, -0.82],
                [-0.52, -0.48, 0.08, 0.12, -0.84, -0.82]]
     data_array_name =  "pressure"
