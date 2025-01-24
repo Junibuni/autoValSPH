@@ -26,15 +26,13 @@ def parse_json(json_file_path):
             else:
                 print(f"Log folder already exists at {log_pth}\n")
 
-        json_files = []
-        if os.path.exists(val_folder_pth) and os.path.isdir(val_folder_pth):
-            json_files = [
-                f for f in os.listdir(val_folder_pth) 
-                if f.endswith(".json")
-            ]
+        json_files = [
+            f + '.json' for f in settings.keys()
+        ]
 
         print("Solver Path:", solver_pth)
         print("Validation Folder Path:", val_folder_pth)
         print("Log Path:", log_pth)
-        print("JSON Files in Validation Folder:", json_files)
+        print("JSON Files:", json_files)
+        print()
         return data, json_files

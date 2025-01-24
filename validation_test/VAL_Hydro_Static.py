@@ -1,6 +1,6 @@
 from validation_test.utils.clip_and_extract import clip_and_extract
 
-def run(vtk_folder, save_log_pth, grid_number, bounds, data_array_name):
+def run(vtk_folder, save_log_pth, grid_number):
     bounds =  [-0.5, 0.5, 0.0, 0.02, -0.5, 0.5]
     data_array_name =  "pressure"
                 
