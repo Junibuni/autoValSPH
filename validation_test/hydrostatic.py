@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from validation_test.utils.clip_and_extract import clip_and_extract
 
 def run(vtk_folder, save_log_pth, grid_number, bounds, data_array_name):
-    bounds =  [-0.5, 0.5, 0.0, 0.02, -0.5, 0.5]
+    bounds =  [[-0.5, 0.5, 0.0, 0.02, -0.5, 0.5]]
     data_array_name =  "pressure"
                 
     times, mean_values = clip_and_extract(
@@ -17,8 +17,8 @@ def run(vtk_folder, save_log_pth, grid_number, bounds, data_array_name):
     data_unit = "pa"
     
     plt.figure(figsize=(4, 3))
-    plt.plot(times, mean_values, label="NFLOW SDK")
-    plt.plot(times, [9810] * len(times), color='black', label="Theoretical") # 색깔은?
+    plt.plot(times, mean_values[0], label="NFLOW SDK", color='red')
+    plt.plot(times, [9810] * len(times), color='black', label="Theoretical", color='black')
     plt.xlabel("Steps")
     plt.ylabel(f"{data_array_name} {data_unit}")
     plt.legend(loc='upper right')

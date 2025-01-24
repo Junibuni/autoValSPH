@@ -27,8 +27,8 @@ def run(vtk_folder, save_log_pth, grid_number):
     
     theoretical = 4*1.5*(distances/0.1 - (distances/0.1)**2)
     plt.figure(figsize=(4, 3))
-    plt.plot(distances, values, label="NFLOW SDK")
-    plt.plot(distances, theoretical, label="Theoretical") # 색깔은?
+    plt.plot(distances, values, label="NFLOW SDK", color='red')
+    plt.plot(distances, theoretical, label="Theoretical", color='black')
     plt.xlabel("Displacement m")
     plt.ylabel(f"{data_array_name} {data_unit}")
     plt.legend(loc='upper right')

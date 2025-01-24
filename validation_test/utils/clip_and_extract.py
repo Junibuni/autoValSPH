@@ -21,20 +21,20 @@ def clip_and_extract(vtk_folder, grid_number, bounds, data_array_name):
 
     vtk_files.sort(key=lambda x: x[1])
 
+    mean_values_by_bound = {i: [] for i in range(len(bounds))}
     times = []
-    mean_values = []
-
     for file_path, time_index in vtk_files:
         dataset = pv.read(file_path)
-
-        clipped = dataset.clip_box(bounds)
         
-        if data_array_name in clipped.array_names:
-            data = clipped[data_array_name]
-            mean_values.append(data.mean())
-            times.append(time_index)
-        else:
-            print(f"Array '{data_array_name}' not found in {file_path}")
+        for i, bound in enumerate(bounds):
+            clipped = dataset.clip_box(bound)
+            
+            if data_array_name in clipped.array_names:
+                data = clipped[data_array_name]
+                mean_values_by_bound[i].append(data.mean())
+                times.append(time_index)
+            else:
+                print(f"Array '{data_array_name}' not found in {file_path}")
 
     # plt.figure()
     # plt.plot(times, mean_values, marker='o', label=f"Grid {grid_number}")
@@ -44,4 +44,4 @@ def clip_and_extract(vtk_folder, grid_number, bounds, data_array_name):
     # plt.legend()
     # plt.grid()
     # plt.show()
-    return times, mean_values
+    return times, mean_values_by_bound
