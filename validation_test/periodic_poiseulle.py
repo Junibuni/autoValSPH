@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -21,13 +23,15 @@ def run(vtk_folder, save_log_pth, grid_number):
         radius=radius,
         xyz=xyz)
     
+    data_unit = "m/s"
+    
+    theoretical = 4*0.125*(distances - (distances)**2)
     plt.figure(figsize=(4, 3))
-    plt.plot(distances, values, label=f"SPH Interpolation (Grid {grid_number}, Time Step {last_time_index})")
-    plt.xlabel("Distance Along Line")
-    plt.ylabel("Normalized Velocity X")
-    plt.title(f"SPH Interpolation of Velocity X Over Line (Grid {grid_number}, Time Step {last_time_index})")
-    plt.legend()
-    plt.grid()
-    plt.show()
+    plt.plot(distances, values, label="NFLOW SDK")
+    plt.plot(distances, theoretical, label="Theoretical") # 색깔은?
+    plt.xlabel("Displacement m")
+    plt.ylabel(f"{data_array_name} {data_unit}")
+    plt.legend(loc='upper right')
+    plt.savefig(os.path.join(save_log_pth, "graph.png"))
     
     # 후처리 이후 save_log_pth에 결과 저장 (csv)
