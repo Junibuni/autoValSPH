@@ -1,4 +1,7 @@
+import os
+
 import numpy as np
+import matplotlib.pyplot as plt
 
 from validation_test.utils.interpolate_and_plot_line import interpolate_and_plot_line
 
@@ -20,4 +23,14 @@ def run(vtk_folder, save_log_pth, grid_number):
         radius=radius,
         xyz=xyz)
     
+    data_unit = "m/s"
+    
+    theoretical = 4*1.5*(distances/0.1 - (distances/0.1)**2)
+    plt.figure(figsize=(4, 3))
+    plt.plot(distances, values, label="NFLOW SDK")
+    plt.plot(distances, theoretical, label="Theoretical") # 색깔은?
+    plt.xlabel("Displacement m")
+    plt.ylabel(f"{data_array_name} {data_unit}")
+    plt.legend(loc='upper right')
+    plt.savefig(os.path.join(save_log_pth, "graph.png"))
     # 후처리 이후 save_log_pth에 결과 저장 (csv)
