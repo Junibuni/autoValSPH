@@ -20,6 +20,7 @@ def parse_json(json_file_path):
         
         if not log_pth:
             log_pth = "./log"
+            data["log_pth"] = log_pth
             if not os.path.exists(log_pth):
                 os.makedirs(log_pth)
                 print(f"Log folder created at {log_pth}\n")

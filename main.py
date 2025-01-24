@@ -1,6 +1,7 @@
 import argparse
 import subprocess
 import os
+import time
 
 import importlib
 from validation_test.utils.parse_json import parse_json
@@ -30,8 +31,12 @@ for j in json_list:
     try:
         print(f"Executing program for: {file_name}")
         with open(os.path.join(save_log_pth, 'log.txt'), 'w') as output_file:
+            start_time = time.time()
             process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
             process.communicate()
+            end_time = time.time()
+            execution_time = end_time - start_time
+            print(f"Execution Time: {execution_time:.5f}")
             print(f"Program output is logged to: {save_log_pth}")
             print()
     except subprocess.CalledProcessError as e:
@@ -45,7 +50,7 @@ for j in json_list:
         function_name = "run"
         if hasattr(module, function_name):
             getattr(module, function_name)(result_pth, save_log_pth, **settings[file_name])  
-            print("Post-processing for {file_name} is finished.")
+            print(f"Post-processing for {file_name} is finished.")
             print()          
         else:
             print(f"The function {module}.{function_name} is not defined.")  
