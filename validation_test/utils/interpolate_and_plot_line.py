@@ -32,7 +32,7 @@ def sph_interpolation_with_shepard(data, positions, start_point, end_point, n_po
     distances = np.linspace(0, np.linalg.norm(end_point - start_point), n_points)
     return distances, interpolated_values
 
-def interpolate_and_plot_line(vtk_folder, grid_number, start_point, end_point, n_points, data_array_name, radius):
+def interpolate_and_plot_line(vtk_folder, grid_number, start_point, end_point, n_points, data_array_name, radius, xyz=None):
     def filter_and_extract_time(filename, grid_number):
         match = re.search(rf'grid{grid_number}_(\d+)\.vtk', filename)
         if match:
@@ -58,11 +58,22 @@ def interpolate_and_plot_line(vtk_folder, grid_number, start_point, end_point, n
     positions = dataset.points
     if data_array_name not in dataset.array_names:
         raise ValueError(f"Data array '{data_array_name}' not found in the dataset.")
-    velocity_data = dataset[data_array_name]
+    
+    data = np.array(dataset[data_array_name])
 
-    velocity_x = velocity_data[:, 0]
+    # 3차원일 경우 extract
+    if xyz:
+        assert data.ndim == 2 and data.shape[1] == 3
+        if xyz == 'x':
+            data = data[:, 0]
+        elif xyz == 'y':
+            data = data[:, 1]
+        elif xyz == 'z':
+            data = data[:, 2]
+        else:
+            raise ValueError(f"Unknown variable: {xyz}")
 
-    distances, values = sph_interpolation_with_shepard(velocity_x, positions, start_point, end_point, n_points, radius)
+    distances, values = sph_interpolation_with_shepard(data, positions, start_point, end_point, n_points, radius)
 
     # plt.plot(distances, values, label=f"SPH Interpolation (Grid {grid_number}, Time Step {last_time_index})")
     # plt.xlabel("Distance Along Line")
