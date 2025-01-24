@@ -1,33 +1,21 @@
 {
+    "name": "",
+    "commit_number": "",
     "solver_pth" : "./sources/VSBuild/x64/Release/RuntimeSPH.exe",
     "val_folder_pth": "./sources/test_files/Validation",
     "log_pth": "",
     "settings": {
             "VAL_Hydro_Static": {
-                "grid_number": 1,
-                "bounds": [-0.5, 0.5, 0.0, 0.02, -0.5, 0.5],
-                "data_array_name": "pressure"
+                "grid_number": 1
             },
             "VAL_Dam_Break": {
-                "grid_number": 1,
-                "bounds": [-0.52, -0.48, 0.0, 0.04, -0.84, -0.82],
-                "data_array_name": "pressure"
+                "grid_number": 1
             },
             "VAL_OBC_Poiseuille": {
-                "grid_number": 1,
-                "radius": 0.002,
-                "n_points": 1000,
-                "start_point": [0.5, -0.05, 0.0],
-                "end_point": [0.5, 0.05, 0.0],
-                "data_array_name": "velocity"
+                "grid_number": 1
             },
             "VAL_Periodic_Poiseuille": {
-                "grid_number": 1,
-                "radius": 0.01,
-                "n_points": 1000,
-                "start_point": [0.5, -0.5, 0.0],
-                "end_point": [0.5, 0.5, 0.0],
-                "data_array_name": "velocity"
+                "grid_number": 1
             }
     }
 }

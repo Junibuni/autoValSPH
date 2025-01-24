@@ -32,15 +32,9 @@ for j in json_list:
         process.communicate()
     
     result_pth = os.path.join(val_folder_pth, file_name) # i.e. "validation_path/VAL_Hydro_Static"
-    match file_name:
-        case "VAL_Hydro_Static":
-            vt.hydrostatic(result_pth, save_log_pth, **settings[file_name])
-            
-        case "VAL_Dam_Break":
-            vt.dambreak(result_pth, save_log_pth, **settings[file_name])
-            
-        case "VAL_OBC_Poiseuille":
-            vt.obc_poiseuille(result_pth, save_log_pth, **settings[file_name])
-            
-        case "VAL_Periodic_Poiseuille":
-            vt.periodic_poiseulle(result_pth, save_log_pth, **settings[file_name])
+    function_name = f"vt.{file_name}"
+    if function_name in globals():
+        print(f"{function_name} is being executed...")
+        globals()[function_name]()  # Call the function dynamically
+    else:
+        print(f"The function {function_name} is not defined.")    
