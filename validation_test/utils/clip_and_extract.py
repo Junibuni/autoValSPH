@@ -29,14 +29,14 @@ def clip_and_extract(vtk_folder, grid_number, bounds, data_array_name):
         dataset = pv.read(file_path)
         
         for i, bound in enumerate(bounds):
-            clipped = dataset.clip_box(bound)
+            clipped = dataset.clip_box(bound, invert=False)
             
             if data_array_name in clipped.array_names:
                 data = clipped[data_array_name]
                 mean_values_by_bound[i].append(data.mean())
-                times.append(time_index)
             else:
                 print(f"Array '{data_array_name}' not found in {file_path}")
+        times.append(time_index)
 
     # plt.figure()
     # plt.plot(times, mean_values, marker='o', label=f"Grid {grid_number}")

@@ -19,7 +19,7 @@ def run(vtk_folder, save_log_pth, grid_number):
     
     plt.figure(figsize=(8, 6))
     plt.plot(times, mean_values[0], label="NFLOW SDK", color='red')
-    plt.plot(times, [9810] * len(times), color='black', label="Theoretical", color='black')
+    plt.plot(times, [9810] * len(times), label="Theoretical", color='black')
     plt.xlabel("Steps")
     plt.ylabel(f"{data_array_name} {data_unit}")
     plt.legend(loc='upper right')

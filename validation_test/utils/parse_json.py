@@ -3,7 +3,7 @@ import os
 
 def parse_json(json_file_path):
     try:
-        with open(json_file_path, "r") as file:
+        with open(json_file_path, "r", encoding='utf-8') as file:
             data = json.load(file)
     except FileNotFoundError:
         print(f"Error: File {json_file_path} not found.")

@@ -32,15 +32,18 @@ for j in json_list:
     if not os.path.exists(save_log_pth):
         os.makedirs(save_log_pth)
 
+    print()
+    print("="*50)
     try:
         print(f"Executing program for: {file_name}")
         with open(os.path.join(save_log_pth, 'log.txt'), 'w') as output_file:
+            print(f"Running command: {solver_pth} {argument}")
             start_time = time.time()
             process = subprocess.Popen([solver_pth, argument], stdout=output_file, stderr=subprocess.STDOUT)
             process.communicate()
             end_time = time.time()
             execution_time = end_time - start_time
-            print(f"Execution Time: {execution_time:.5f}")
+            print(f"Execution Time: {execution_time:.2f}s")
             print(f"Program output is logged to: {save_log_pth}")
             print()
     except subprocess.CalledProcessError as e:
@@ -63,5 +66,7 @@ for j in json_list:
     except subprocess.CalledProcessError as e:
         print(f"Error during post-processing for {file_name}.")
         raise
+    
+    print()
     
 doc.save()
