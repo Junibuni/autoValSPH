@@ -33,7 +33,10 @@ def clip_and_extract(vtk_folder, grid_number, bounds, data_array_name):
             
             if data_array_name in clipped.array_names:
                 data = clipped[data_array_name]
-                mean_values_by_bound[i].append(data.mean())
+                if data.size > 0:
+                    mean_values_by_bound[i].append(np.mean(data))
+                else:
+                    mean_values_by_bound[i].append(0.0)
             else:
                 print(f"Array '{data_array_name}' not found in {file_path}")
         times.append(time_index)

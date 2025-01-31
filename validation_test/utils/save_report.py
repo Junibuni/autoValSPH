@@ -52,14 +52,14 @@ class Document:
         
         self.pdf.setFont("맑은고딕", 9)
         text = f"• 해석 시간: {elapsed_time:.5f}초"
-        error_text = f"• 오차율: {error:.3f}%"
         self.lh -= 15        
         self.pdf.drawString(30, self.lh, text)
         self.lh -= 15
         if error:
+            error_text = f"• 오차율: {error:.3f}%"
             self.pdf.drawString(30, self.lh, error_text)
 
-        if title == "Val_Dam_Break":
+        if title == "VAL_Dam_Break":
             self.lh -= 200
             self.pdf.drawImage(os.path.join(save_log_pth, "graph_p1.png"), (self.width // 2)-260, self.lh, width=240, height=180)
             self.pdf.drawImage(os.path.join(save_log_pth, "graph_p3.png"), (self.width // 2)+20, self.lh, width=240, height=180)

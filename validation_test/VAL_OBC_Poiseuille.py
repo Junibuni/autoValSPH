@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 from validation_test.utils.interpolate_and_plot_line import interpolate_and_plot_line
 
 def run(vtk_folder, save_log_pth, grid_number):
-    radius =  0.002,
-    n_points =  1000,
-    start_point =  np.array([0.5, -0.05, 0.0]),
-    end_point =  np.array([0.5, 0.05, 0.0]),
-    data_array_name =  "velocity",
+    radius =  0.002
+    n_points =  1000
+    start_point =  np.array([0.5, -0.05, 0.0])
+    end_point =  np.array([0.5, 0.05, 0.0])
+    data_array_name =  "velocity"
     xyz =  "x"
 
     distances, values = interpolate_and_plot_line(
