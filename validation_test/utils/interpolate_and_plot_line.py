@@ -6,31 +6,29 @@ import re
 
 def wendland_quintic_kernel(r, h):
     alpha_d = 21 / (16 * np.pi * h**3)
-    qm = max(1-r*0.5, 0)
+    qm = np.maximum(1-r*0.5, 0)
     
     return alpha_d * (qm)**4 * (2 * r + 1)
 
 def sph_interpolation_with_shepard(data, positions, start_point, end_point, n_points, radius):
-    line_points = np.linspace(start_point, end_point, n_points)
-    interpolated_values = []
+    line_points = np.linspace(start_point, end_point, n_points)  # Shape: (n_points, 3)
     vol = radius ** 3
     smoothing_length = 4.8 * radius
+
+    distances = np.linalg.norm(positions[:, None, :] - line_points[None, :, :], axis=-1)  # Shape: (num_particles, n_points)
     
-    for point in line_points:
-        weighted_sum = 0
-        weight_total = 0
+    weights = np.where(distances < smoothing_length, 
+                       wendland_quintic_kernel(distances, smoothing_length), 
+                       0)  # Shape: (num_particles, n_points)
 
-        for particle_pos, particle_val in zip(positions, data):
-            distance = np.linalg.norm(particle_pos - point)
-            if distance < smoothing_length:
-                weight = wendland_quintic_kernel(distance, smoothing_length)
-                weighted_sum += weight * particle_val * vol
-                weight_total += weight * vol
+    weighted_values = (weights * data[:, None] * vol).sum(axis=0)  # Shape: (n_points,)
+    weight_totals = (weights * vol).sum(axis=0)  # Shape: (n_points,)
 
-        interpolated_values.append(weighted_sum / weight_total if weight_total > 0 else weighted_sum)
+    interpolated_values = np.where(weight_totals > 0, weighted_values / weight_totals, weighted_values)
 
-    distances = np.linspace(0, np.linalg.norm(end_point - start_point), n_points)
-    return distances, interpolated_values
+    distances_output = np.linspace(0, np.linalg.norm(end_point - start_point), n_points)
+    
+    return distances_output, interpolated_values
 
 def interpolate_and_plot_line(vtk_folder, grid_number, start_point, end_point, n_points, data_array_name, radius, xyz=None):
     def filter_and_extract_time(filename, grid_number):
