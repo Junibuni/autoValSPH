@@ -22,12 +22,20 @@ def parse_json(json_file_path):
         
         if not log_pth:
             log_pth = "./log"
-            data["log_pth"] = log_pth
-            if not os.path.exists(log_pth):
-                os.makedirs(log_pth)
-                print(f"Log folder created at {log_pth}\n")
-            else:
-                print(f"Log folder already exists at {log_pth}\n")
+
+        if os.path.exists(log_pth):
+            i = 1
+            new_log_pth = f"{log_pth}({i})"
+            while os.path.exists(new_log_pth):
+                i += 1
+                new_log_pth = f"{log_pth}({i})"
+            log_pth = new_log_pth
+            print(f"Log folder already exists, creating a new one at {log_pth}\n")
+        else:
+            print(f"Log folder created at {log_pth}\n")
+
+        data["log_pth"] = log_pth
+        os.makedirs(log_pth)
 
         json_files = [
             f + '.json' for f in settings.keys()
