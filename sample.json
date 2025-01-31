@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "commit_number": "",
+    "name": "홍길동 주임연구원",
+    "commit_number": "SPH3D/dg1ldj",
     "solver_pth" : "./sources/VSBuild/x64/Release/RuntimeSPH.exe",
     "val_folder_pth": "./sources/test_files/Validation",
     "log_pth": "",

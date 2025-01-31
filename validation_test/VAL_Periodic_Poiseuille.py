@@ -26,7 +26,7 @@ def run(vtk_folder, save_log_pth, grid_number):
     data_unit = "m/s"
     
     theoretical = 4*0.125*(distances - (distances)**2)
-    plt.figure(figsize=(4, 3))
+    plt.figure(figsize=(8, 6))
     plt.plot(distances, values, label="NFLOW SDK", color='red')
     plt.plot(distances, theoretical, label="Theoretical", color='black')
     plt.xlabel("Displacement m")
@@ -34,4 +34,6 @@ def run(vtk_folder, save_log_pth, grid_number):
     plt.legend(loc='upper right')
     plt.savefig(os.path.join(save_log_pth, "graph.png"))
     
-    # 후처리 이후 save_log_pth에 결과 저장 (csv)
+    error = abs(max(values) - 0.125) / 0.125 * 100
+    
+    return error

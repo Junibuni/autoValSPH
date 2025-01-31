@@ -5,6 +5,7 @@ import time
 
 import importlib
 from validation_test.utils.parse_json import parse_json
+from validation_test.utils.save_report import Document
 
 parser = argparse.ArgumentParser(description="SPH automated validation")
 parser.add_argument("--json_pth", type=str, default="./sample.json", help="Path to the json file")
@@ -19,6 +20,9 @@ solver_pth = data["solver_pth"]
 val_folder_pth = data["val_folder_pth"]
 settings = data["settings"]
 log_pth = data["log_pth"]
+
+data_dict = dict()
+doc = Document(save_pth=log_pth, name=data['name'], git=data['commit_number'])
 
 for j in json_list:
     argument = os.path.join(val_folder_pth, j) # i.e. "some_path/VAL_Hydro_Static.json"
@@ -49,12 +53,15 @@ for j in json_list:
         module = importlib.import_module(f"validation_test.{file_name}")
         function_name = "run"
         if hasattr(module, function_name):
-            getattr(module, function_name)(result_pth, save_log_pth, **settings[file_name])  
+            error = getattr(module, function_name)(result_pth, save_log_pth, **settings[file_name])  
             print(f"Post-processing for {file_name} is finished.")
-            print()          
+            print()
+            doc.write_section(file_name, save_log_pth, execution_time, error)
         else:
             print(f"The function {module}.{function_name} is not defined.")  
 
     except subprocess.CalledProcessError as e:
         print(f"Error during post-processing for {file_name}.")
         raise
+    
+doc.save()

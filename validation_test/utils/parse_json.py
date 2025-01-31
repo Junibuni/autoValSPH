@@ -17,6 +17,8 @@ def parse_json(json_file_path):
         val_folder_pth = data["val_folder_pth"]
         settings = data["settings"]
         log_pth = data["log_pth"]
+        name = data["name"]
+        git = data["commit_number"]
         
         if not log_pth:
             log_pth = "./log"
@@ -34,6 +36,8 @@ def parse_json(json_file_path):
         print("Solver Path:", solver_pth)
         print("Validation Folder Path:", val_folder_pth)
         print("Log Path:", log_pth)
+        print("Author:", name)
+        print("Commit Number:", git)
         print("JSON Files:", json_files)
         print()
         return data, json_files
