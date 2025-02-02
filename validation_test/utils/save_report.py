@@ -9,7 +9,7 @@ class Document:
     def __init__(self, save_pth, name, git):
         self.cnt = 1
         self.lh = 0
-        self.save_pth = save_pth
+        self.save_pth = os.path.join(save_pth, "report.pdf")
         
         current_date = datetime.now().strftime("%Y/%m/%d")
 
