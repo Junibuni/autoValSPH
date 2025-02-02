@@ -8,7 +8,7 @@ from validation_test.utils.parse_json import parse_json
 from validation_test.utils.save_report import Document
 
 parser = argparse.ArgumentParser(description="SPH automated validation")
-parser.add_argument("--json_pth", type=str, default="./sample.json", help="Path to the json file")
+parser.add_argument("--json_pth", "-j", type=str, default="./sample.json", help="Path to the json file")
 
 args = parser.parse_args()
 
