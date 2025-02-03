@@ -59,7 +59,7 @@ class Document:
             error_text = f"• 오차율: {error:.3f}%"
             self.pdf.drawString(30, self.lh, error_text)
 
-        if title == "VAL_Dam_Break":
+        if "dambreak" in title.replace("_", "").lower():
             self.lh -= 200
             self.pdf.drawImage(os.path.join(save_log_pth, "graph_p1.png"), (self.width // 2)-260, self.lh, width=240, height=180)
             self.pdf.drawImage(os.path.join(save_log_pth, "graph_p3.png"), (self.width // 2)+20, self.lh, width=240, height=180)
