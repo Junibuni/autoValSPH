@@ -36,7 +36,7 @@ def run(vtk_folder, save_log_pth, grid_number):
     plt.legend(loc='upper right')
     plt.savefig(os.path.join(save_log_pth, "graph_p1.png"))
     
-    plt.figure(figsize=(4, 3))
+    plt.figure(figsize=(8, 6))
     plt.plot(times, mean_values[1], label="NFLOW SDK, p3", color='red')
     plt.plot(times_to_steps(Ex_p3_time), Ex_p3_pressure, label="Experiment", color='black')
     plt.plot(times_to_steps(FVM_p3_time), FVM_p3_pressure, label="FVM", color='blue')
