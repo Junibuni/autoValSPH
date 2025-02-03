@@ -1,4 +1,5 @@
 import os
+import atexit
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -10,6 +11,7 @@ class Document:
         self.cnt = 1
         self.lh = 0
         self.save_pth = os.path.join(save_pth, "report.pdf")
+        atexit.register(self.save)
         
         current_date = datetime.now().strftime("%Y/%m/%d")
 
