@@ -1,5 +1,6 @@
 import os
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from validation_test.utils.clip_and_extract import clip_and_extract
 from validation_test.utils.dambbreak_result import (
@@ -45,6 +46,12 @@ def run(vtk_folder, save_log_pth, grid_number):
     plt.legend(loc='upper right')
     plt.savefig(os.path.join(save_log_pth, "graph_p3.png"))
     
+    df = pd.DataFrame({"time": times, f"{data_array_name}": mean_values[0]})
+    df.to_csv("data_p1.csv", index=False, float_format="%.6f")
+    
+    df = pd.DataFrame({"time": times, f"{data_array_name}": mean_values[1]})
+    df.to_csv(os.path.join(save_log_pth, "data_p3.csv"), index=False, float_format="%.6f")
+
     return None
 
 def times_to_steps(times, dt=0.02):

@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from validation_test.utils.clip_and_extract import clip_and_extract
 
@@ -24,6 +25,9 @@ def run(vtk_folder, save_log_pth, grid_number):
     plt.ylabel(f"{data_array_name} {data_unit}")
     plt.legend(loc='upper right')
     plt.savefig(os.path.join(save_log_pth, "graph.png"))
+    
+    df = pd.DataFrame({"time": times, f"{data_array_name}": mean_values[0]})
+    df.to_csv(os.path.join(save_log_pth, "data.csv"), index=False, float_format="%.6f")
     
     error = abs(np.mean(mean_values[0][-max(1, len(times) // 10):]) - 9810) / 9810 * 100
     

@@ -2,6 +2,7 @@ import os
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from validation_test.utils.interpolate_and_plot_line import interpolate_and_plot_line
 
@@ -33,6 +34,9 @@ def run(vtk_folder, save_log_pth, grid_number):
     plt.ylabel(f"{data_array_name} {data_unit}")
     plt.legend(loc='upper right')
     plt.savefig(os.path.join(save_log_pth, "graph.png"))
+    
+    df = pd.DataFrame({"distance": distances, f"{data_array_name}": values})
+    df.to_csv(os.path.join(save_log_pth, "data.csv"), index=False, float_format="%.6f")
     
     error = abs(max(values) - 1.5) / 1.5 * 100
     
