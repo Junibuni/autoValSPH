@@ -47,7 +47,7 @@ def run(vtk_folder, save_log_pth, grid_number):
     plt.savefig(os.path.join(save_log_pth, "graph_p3.png"))
     
     df = pd.DataFrame({"time": times, f"{data_array_name}": mean_values[0]})
-    df.to_csv("data_p1.csv", index=False, float_format="%.6f")
+    df.to_csv(os.path.join(save_log_pth, "data_p1.csv"), index=False, float_format="%.6f")
     
     df = pd.DataFrame({"time": times, f"{data_array_name}": mean_values[1]})
     df.to_csv(os.path.join(save_log_pth, "data_p3.csv"), index=False, float_format="%.6f")
